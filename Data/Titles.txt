@@ -1,0 +1,25 @@
+[id=0type=1need=1]Процессор
+[id=1type=1need=1]Оперативная память
+[id=2type=1need=1]Жёсткий диск
+[id=3type=1need=0]Дисковод
+[id=4type=1need=1]Видеокарта
+[id=5type=1need=0]Звуковая карта
+[id=6type=1need=0]Сетевая карта
+[id=7type=1need=1]Блок питания
+[id=8type=1need=1]Клавиатура
+[id=9type=1need=0]Мышь
+[id=10type=1need=1]Монитор
+[id=11type=1need=0]Принтер
+
+[id=12type=2year=1969country=США]AMD
+[id=13type=2year=1968country=США]Intel
+[id=14type=2year=1993country=США]Nvidia
+[id=15type=2year=1989country=Китай]Asus
+[id=16type=2year=1939country=США]HP
+[id=17type=2year=1938country=Корея]Samsung
+[id=18type=2year=1987country=США]Kingston
+
+
+[id=19type=0url=https://4pda.to/]4PDA
+[id=20type=0url=https://habr.com/]Хабр
+[id=21type=0url=https://www.cyberforum.ru/]Cyberforum

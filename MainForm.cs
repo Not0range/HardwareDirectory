@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using System.Diagnostics;
 
 namespace HardwareDictionary
 {
@@ -95,6 +96,7 @@ namespace HardwareDictionary
                 MessageBox.Show("Один или несколько файлов программы не были обнаружены. Дальнейшая работа невозможна",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+                return;
             }
             finally
             {
@@ -151,7 +153,7 @@ namespace HardwareDictionary
                 else if (item is Manufacturer)
                 {
                     var l = new Label();
-                    l.Text = "Основана в " + (item as Manufacturer).Year.ToString() + "году";
+                    l.Text = "Основана в " + (item as Manufacturer).Year.ToString() + " году";
                     l.AutoSize = true;
                     l.Dock = DockStyle.Top;
                     l.Font = new Font(l.Font, FontStyle.Bold);
@@ -167,12 +169,20 @@ namespace HardwareDictionary
                 }
                 for (int i = 0; i < item.Text.Length; i++)
                 {
-                    var l = new Label();
-                    l.Text = item.Text[i];
-                    l.AutoSize = true;
-                    l.Dock = DockStyle.Top;
-                    gb.Controls.Add(l);
-                    l.BringToFront();
+                    var tb = new TextBox();
+                    tb.Text = item.Text[i];
+                    tb.Multiline = true;
+                    tb.BorderStyle = BorderStyle.None;
+                    tb.Cursor = Cursors.Default;
+                    tb.Dock = DockStyle.Top;
+                    tb.KeyPress += (s, ea) => ea.Handled = true;
+                    tb.Resize += (s, ea) =>
+                    {
+                        var temp = (s as TextBox);
+                        temp.Height = ((int)Math.Floor((double)TextRenderer.MeasureText(temp.Text, temp.Font).Width / temp.Width) + 1) * 15;
+                    };
+                    gb.Controls.Add(tb);
+                    tb.BringToFront();
                     if (item is IPictures && (item as IPictures).Pictures[i] != null)
                     {
                         var pb = new PictureBox();
@@ -190,6 +200,7 @@ namespace HardwareDictionary
                     l.AutoSize = true;
                     l.Dock = DockStyle.Top;
                     l.Font = new Font(l.Font, FontStyle.Bold);
+                    l.Click += (s, ea) => Process.Start((s as LinkLabel).Text);
                     gb.Controls.Add(l);
                     l.BringToFront();
                 }
@@ -206,7 +217,7 @@ namespace HardwareDictionary
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             panel1.Controls.Clear();
-            Log("[Инфо]Поиск по ключевому(ым) слову(ам): " + textBox1.Text);
+            Log("[Инфо] Поиск по ключевому(ым) слову(ам): " + textBox1.Text);
             Fill<Hardware>(panel1, textBox1.Text);
             Fill<Manufacturer>(panel1, textBox1.Text);
             Fill<Site>(panel1, textBox1.Text);
